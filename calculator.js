@@ -13,37 +13,45 @@ let answer = parseInt('');
 
 //Function adds 2 numbers 
 function add(a, b) {
-    return a + b;
+    answer = a + b;
+    return answer;
 };
 
 //Function subtracts 2nd number from 1rst
 function subtract(a, b) {
-    return a - b;
+    answer = a - b;
+    return answer;
 };
 
 //Func multiples 2 numbers
 function multiply(a, b) {
-    return a * b;
+    answer = a * b;
+    return answer;
 };
 
 //Func divides 1rst number by 2nd
 function divide(a, b) {
-    return a/b;
+    answer = a/b;
+    return answer;
 };
 
 //Takes operator and 2 numbers and calls function to match given operator
 function operate(operator, a, b) {
     if(operator === "+") {
-        add();
+       answer = add(a, b);
+       console.log(answer);
     } else if(operator === "-") {
-        subtract();
+        answer = subtract(a, b);
+        console.log(answer);
     } else if(operator === "*") {
-        multiply();
+        answer = multiply(a, b);
+        console.log(answer);
     } else if(operator === "/") {
-        divide();
+        answer = divide(a, b);
+        console.log(answer);
     } else {
         console.log("Error")
     }    
 }
 
-operate();
+operate(operator, a, b); 

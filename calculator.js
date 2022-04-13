@@ -1,14 +1,8 @@
-//Enter 1rst number
-const x = prompt('Enter first number.', '0');
-const a = parseInt(x);
 
+const num1 = document.getElementByClass("Number").addEventListener("click"); //Enter 1rst number
 //Choose operator, see function below
-const operator = prompt('Enter an operator');
-
-//Enter 2nd number
-const y = prompt('Enter second number.', '0');
-const b = parseInt(y);
-
+const operator = document.getElementByClass("operator").addEventListener("click");
+const num2 = document.getElementByClass("Number").addEventListener("click"); //Enter 2nd number
 let answer = parseInt('');
 
 //Function adds 2 numbers 

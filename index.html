@@ -4,15 +4,19 @@
   <title>Calculator</title>
   <meta charset="UTF-8"/>
   <link rel="stylesheet" href="styles.css">
+  <script src="calculator.js"></script>
 </head>
 <body>
     <div class='section'>
         <h1>Calculator</h1>
         <div class="container">
-            <div class="display"></div>
+            <div class="display">
+                <div class="previousNum"></div>
+                <div class="currentNum"></div>
+            </div>
             <div class="keypad">
                 <div class="column">
-                    <button class="operator" id="divide">/</button>
+                    <button class="operator" id="divide">÷</button>
                     <button class="operator" id="percent">%</button>
                     <button class="delete" id="delete">DEL</button>
                     <button class="clear" id="clear">ON/C</button>
@@ -25,7 +29,7 @@
                 </div>
                 <div class="column">
                     <button class="number" id="eight">8</button>
-                    <button class="number" id="five">2</button>
+                    <button class="number" id="five">5</button>
                     <button class="number" id="two">2</button>
                     <button class="number" id="decimal">.</button>
                 </div>
@@ -45,6 +49,4 @@
         
     </div>
     </body>
-<script src="calculator.js">
-</script>
 </html>

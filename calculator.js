@@ -1,51 +1,70 @@
-
-const num1 = document.getElementByClass("Number").addEventListener("click"); //Enter 1rst number
-//Choose operator, see function below
-const operator = document.getElementByClass("operator").addEventListener("click");
-const num2 = document.getElementByClass("Number").addEventListener("click"); //Enter 2nd number
-let answer = parseInt('');
-
-//Function adds 2 numbers 
-function add(a, b) {
-    answer = a + b;
-    return answer;
-};
-
-//Function subtracts 2nd number from 1rst
-function subtract(a, b) {
-    answer = a - b;
-    return answer;
-};
-
-//Func multiples 2 numbers
-function multiply(a, b) {
-    answer = a * b;
-    return answer;
-};
-
-//Func divides 1rst number by 2nd
-function divide(a, b) {
-    answer = a/b;
-    return answer;
-};
-
-//Takes operator and 2 numbers and calls function to match given operator
-function operate(operator, a, b) {
-    if(operator === "+") {
-       answer = add(a, b);
-       console.log(answer);
-    } else if(operator === "-") {
-        answer = subtract(a, b);
-        console.log(answer);
-    } else if(operator === "*") {
-        answer = multiply(a, b);
-        console.log(answer);
-    } else if(operator === "/") {
-        answer = divide(a, b);
-        console.log(answer);
-    } else {
-        console.log("Error")
-    }    
+//Takes operator and 2 numbers and returns answer
+function operate(operator, previousNum, currentNum) {
+    let answer 
+    const prev = parseFloat(this.previousNum)
+    const current = parseFLoat(this.currentNum)
+    if (isNaN(prev) || isNaN(current)) return "Error"
+    switch (this.operator) {
+        case '+':
+            answer = prev + current
+            break
+        case '-':
+            answer = prev - current
+            break
+        case 'x':
+            answer = prev * current
+            break
+        case '÷':
+            answer = prev / current
+            break
+        default:
+            return
+    }
+    
 }
 
-operate(operator, a, b); 
+//Show numbers, operators, and answer on calc
+function getDisplay() {
+    //first show previousNum
+    document.getElementByClassName('previousNum').innerText = previousNum;
+    //second show operator
+    document.getElementByClassName('operator').innerText = operator;
+    //next show currentNum
+    document.getElementByClassName('currentNum').innerText = currentNum;
+        //show answer on equals
+
+}
+
+
+const numbers = document.querySelectorAll("buttons.number");
+const previousNum = document.querySelector("div.previousNum"); 
+const operator = document.querySelectorAll("button.operator");
+const currentNum = document.querySelector("div.currentNum"); 
+const clearNum = document.querySelector("button.clear");
+const deleteNum = document.querySelector("button.delete");
+const equals = document.querySelector("button.equals");
+
+
+numbers.forEach(button => {
+    button.addEventListener('click', () => {
+        //convert value of button to float
+        previousNum = parseFloat(numbers);
+        currentNum = parseFloat(numbers);
+        //store number in previousNum, then next in currentNum
+
+    })
+})
+
+operator.forEach(button => {
+    button.addEventListener('click', () => {
+        //button value stores value of operator const
+        document.getElementsByClassName('operator').innerText = operator;
+    })
+})
+
+equals.forEach(button => {
+    button.addEventListener('click', () => {
+        //triggers operate function when button pressed
+        operate(operator);
+    })
+})

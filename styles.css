@@ -1,4 +1,5 @@
-body{
+body {
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,25 +14,64 @@ h1 {
 .container {
     max-height: fit-content;
     max-width: 800px;
+    padding: 50px 50px;
+    background-image: url("images/calculator_background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover; 
     background-color: blueviolet;
-    padding: 50px 20px
+
     
 }
 
 .display {
-    background-color: grey;
+    background-color: rgba(0, 0, 0, 0.8);
     height: 50px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
+    padding: 5px 20px;
+    font-size: 30px;
+    color: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
 }
 
 .keypad {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    grid-auto-rows: minmax(100px, auto);
+    grid-template-rows: minmax(100px, auto);
+    gap: 20px;
 }
 
 .column {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    background-color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-color: lightgrey;
+    margin: 5px 3px;
+    min-height: 50px;
+    min-width: 50px;
+
+}
+
+button.number, button.equals {
+    border-radius: 10px;
+}
+
+button.operator, button.clear, button.delete {
+    border-radius: 50%;
+    min-height: 40px
+}
+
+
+#add {
+    border-radius: 10px;
+    min-height: 100px;
 }

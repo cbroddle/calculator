@@ -31,17 +31,16 @@ const clearNum = document.querySelector("button.clear");
 const deleteNum = document.querySelector("button.delete");
 const equals = document.querySelector("button.equals");
 
-function displayNum(currentNum) {
-    document.getElementById("currentNum").innerText = currentNum;
+let currentNumber = '';
+
+function getNumber() {
+    currentNumber = 1; 
 }
 
-//click num buttons
-numbers.forEach(button => {
-    button.addEventListener('click', () => {
-        //store num in a variable
-        currentNum = numbers;
-    })
-    displayNum(currentNum);
+numbers.addEventListener('click', function() {
+    //currentNumber should equal value of button pressed
+     getNumber();
+    console.log(currentNumber);
 })
 
 

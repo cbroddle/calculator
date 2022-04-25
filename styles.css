@@ -5,15 +5,10 @@ body {
     align-items: center;
 }
 
-h1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .container {
     max-height: fit-content;
     max-width: 800px;
+    margin: 100px auto;
     padding: 50px 50px;
     background-image: url("images/calculator_background.jpg");
     background-repeat: no-repeat;

@@ -34,6 +34,7 @@ const equals = document.querySelector("button.equals");
 let firstNumber = 0;
 let secondNumber = 0;
 let inputNum = 0;
+let inputOp = 0;
 
 // Stores number value from button pressed
 numbers.forEach((numbers)=>{
@@ -42,6 +43,15 @@ numbers.forEach((numbers)=>{
     firstNumber = (firstNumber * 10) + inputNum;
     displayNumber(firstNumber);
   });
+});
+
+operator.forEach((operator) => {
+    operator.addEventListener('click',() => {
+        inputOp = operator.id;
+        console.log(inputOp);
+        secondNumber = firstNumber;
+        console.log(secondNumber);
+    });
 });
 
 function displayNumber(pressedNumber) {

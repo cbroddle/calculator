@@ -17,19 +17,28 @@ let answer = 0;
 // Stores number value from button pressed
 numbers.forEach((numbers) => {
  numbers.addEventListener('click',() => {
-    inputNum = parseInt(numbers.id);
-    firstNumber = (firstNumber * 10) + inputNum;
-    displayNumber(firstNumber);
+    if(numbers.id === '.'){
+        inputNum = numbers.id.toString();
+        appendDecimal();
+     } else {
+        inputNum = parseInt(numbers.id);
+        firstNumber = (firstNumber * 10) + inputNum;
+        displayNumber(firstNumber);
+     }
+    
   });
 });
 
 //adds decimal point to number when btn pressed
-decimal.addEventListener('click', () => {
-    displayDecimal();
-    addDigits = (firstNumber / 100);
-    displayNumber();
-
-})
+/*decimal.addEventListener('click', () => {
+    appendDecimal();
+    firstNumber = firstNumber.toString();
+    
+    if(firstNumber.includes('.')){
+        firstNumber = (firstNumber / 100) + '.' + inputNum;
+    } 
+    console.log(firstNumber);
+})*/
 
 //stores operator pressed and changes current value to previous value
 operator.forEach((operator) => {
@@ -43,8 +52,21 @@ operator.forEach((operator) => {
 //triggers operate function, finds answer of 2 numbers entered and operator
 equals.addEventListener('click',() => {
     operate(inputOp, firstNumber, secondNumber);
-    displayAnswer(answer);
+    if(answer === NaN || answer === Infinity) {
+        answer = 'Error';
+        displayAnswer(answer);
+    } else {
+        displayAnswer(answer);
+    }
+       
 });
+
+deleteNum.addEventListener('click', () => {
+    firstNumber = firstNumber.toString();
+    firstNumber = (firstNumber.slice(0, -1));
+    document.getElementById('currentNum').innerText = firstNumber;
+    //Does not work with inputOp
+})
 
 //removes numbers and ops from diaply and all values go back to 0
 clearNum.addEventListener('click', () => {
@@ -89,11 +111,11 @@ function displayOp() {
     document.getElementById('currentNum').innerText = '';
 }
 
-function displayDecimal() {
-    document.getElementById('currentNum').innerText = (`${firstNumber} ${decimal.id}`);
+function appendDecimal() {
+    document.getElementById('currentNum').innerText += inputNum;
 }
 
 function displayNumber() {
     //add first number pressed to display div
-    document.getElementById('currentNum').innerText = firstNumber;
+    document.getElementById('currentNum').innerText = (`${firstNumber}`);
 }

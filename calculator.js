@@ -1,11 +1,10 @@
 const numbers = document.querySelectorAll(".number");
-const previousNum = document.querySelector("div.previousNum"); 
+const previousNum = document.querySelector("div.previousNum");
 const operator = document.querySelectorAll("button.operator");
-const currentNum = document.querySelector("currentNum"); 
+const currentNum = document.querySelector("currentNum");
 const clearNum = document.querySelector("button.clear");
 const deleteNum = document.querySelector("button.delete");
 const equals = document.querySelector("button.equals");
-const decimal = document.querySelector("button.decimal")
 
 let firstNumber = 0;
 let secondNumber = 0;
@@ -13,63 +12,56 @@ let inputNum = 0;
 let addDigits = '';
 let inputOp = 0;
 let answer = 0;
+let displayNum = '';
+let currentValue = '';
 
 // Stores number value from button pressed
-numbers.forEach((numbers) => {
- numbers.addEventListener('click',() => {
-    if(numbers.id === '.'){
-        inputNum = numbers.id.toString();
-        appendDecimal();
-     } else {
-        inputNum = parseInt(numbers.id);
-        firstNumber = (firstNumber * 10) + inputNum;
-        displayNumber(firstNumber);
-     }
-    
-  });
+numbers.forEach((number) => {
+    number.addEventListener('click', () => {
+        currentValue += number.id
+        console.log(currentValue);
+        inputNum = number.id;
+        displayNum += `${inputNum}`;
+        displayNumber();
+    });
 });
 
-//adds decimal point to number when btn pressed
-/*decimal.addEventListener('click', () => {
-    appendDecimal();
-    firstNumber = firstNumber.toString();
-    
-    if(firstNumber.includes('.')){
-        firstNumber = (firstNumber / 100) + '.' + inputNum;
-    } 
-    console.log(firstNumber);
-})*/
-
 //stores operator pressed and changes current value to previous value
-operator.forEach((operator) => {
-    operator.addEventListener('click',() => {
-        inputOp = operator.id;
-        displayOp();
-        secondNumber = firstNumber;
-        firstNumber = 0;
+operator.forEach((op) => {
+    op.addEventListener('click', () => {
+        inputOp = op.id;
+        displayNum += ` ${inputOp} `;
+        currentValue = '';
+        //displayOp();
+        displayNumber();
     });
 });
 //triggers operate function, finds answer of 2 numbers entered and operator
-equals.addEventListener('click',() => {
-    operate(inputOp, firstNumber, secondNumber);
-    if(answer === NaN || answer === Infinity) {
+equals.addEventListener('click', () => {
+    operate();
+    if (answer === NaN || answer === Infinity) {
         answer = 'Error';
         displayAnswer(answer);
     } else {
         displayAnswer(answer);
     }
-       
+    //Get answer to display correctly after 
+    displayNum = answer;
+
 });
 
 deleteNum.addEventListener('click', () => {
+    //Remove whatever last display char was
+    //displayNum slice lasy char and reassign
     firstNumber = firstNumber.toString();
     firstNumber = (firstNumber.slice(0, -1));
+
     document.getElementById('currentNum').innerText = firstNumber;
-    //Does not work with inputOp
 })
 
 //removes numbers and ops from diaply and all values go back to 0
 clearNum.addEventListener('click', () => {
+    //Rework clear with new vars
     firstNumber = 0;
     secondNumber = 0;
     inputOp = 0;
@@ -78,26 +70,42 @@ clearNum.addEventListener('click', () => {
 })
 
 //Takes operator and 2 numbers and returns answer
-function operate(inputOp, firstNumber, secondNumber) {
-    
-    switch (inputOp) {
-        case '+':
-            answer = secondNumber + firstNumber;
-            break
-        case '-':
-            answer = secondNumber - firstNumber;
-            break
-        case 'x':
-            answer = secondNumber * firstNumber;
-            break
-        case '÷':
-            answer = secondNumber / firstNumber;
-            break
-        case '%':
-            answer = secondNumber / 100;
-        default:
-            return
-    }
+function operate() {
+    let mathChar = displayNum.split(' ');
+    console.log(mathChar);
+    let runningTotal = null;
+    let ops = '+-x÷%'
+    //['12', '+', '2']
+    mathChar.forEach((char, i, mathChar) => {
+        if (runningTotal === null) {
+            runningTotal = Number(char);
+        } else {
+            if (ops.includes(char) === false) {
+                switch (mathChar[i - 1]) {
+                    case '+':
+                        runningTotal += Number(char);
+                        break
+                    case '-':
+                        runningTotal -= Number(char);
+                        break
+                    case 'x':
+                        runningTotal *= Number(char);
+                        break
+                    case '÷':
+                        runningTotal /= Number(char);
+                        break
+                    case '%':
+                        runningTotal = runningTotal / 100;
+                    default:
+                        return
+                }
+            }
+
+        }
+
+    })
+    answer = runningTotal;
+
 }
 
 //Display Functions
@@ -106,16 +114,7 @@ function displayAnswer() {
     document.getElementById('previousNum').innerText = '';
 }
 
-function displayOp() {
-    document.getElementById('previousNum').innerText = (`${firstNumber} ${inputOp}`);
-    document.getElementById('currentNum').innerText = '';
-}
-
-function appendDecimal() {
-    document.getElementById('currentNum').innerText += inputNum;
-}
-
 function displayNumber() {
     //add first number pressed to display div
-    document.getElementById('currentNum').innerText = (`${firstNumber}`);
+    document.getElementById('currentNum').innerText = (`${displayNum}`);
 }

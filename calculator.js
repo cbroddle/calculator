@@ -5,37 +5,42 @@ const currentNum = document.querySelector("currentNum");
 const clearNum = document.querySelector("button.clear");
 const deleteNum = document.querySelector("button.delete");
 const equals = document.querySelector("button.equals");
+const decimal = document.getElementById(".");
 
-let firstNumber = 0;
-let secondNumber = 0;
+//Vars should keep track of each value being input
 let inputNum = 0;
-let addDigits = '';
 let inputOp = 0;
 let answer = 0;
-let displayNum = '';
-let currentValue = '';
+let displayNum = ''; //Updated after any button is clicked
+let currentValue = ''; //Gets reassigned after every Operator click 
+let decimalCount = 0;
 
 // Stores number value from button pressed
 numbers.forEach((number) => {
     number.addEventListener('click', () => {
         currentValue += number.id
-        console.log(currentValue);
         inputNum = number.id;
         displayNum += `${inputNum}`;
         displayNumber();
     });
 });
 
-//stores operator pressed and changes current value to previous value
+decimal.addEventListener('click', () => {
+    decimalCount++;
+    disableDecimal();
+});
+
+
+// Stores operator pressed and changes current value to previous value
 operator.forEach((op) => {
     op.addEventListener('click', () => {
         inputOp = op.id;
         displayNum += ` ${inputOp} `;
         currentValue = '';
-        //displayOp();
         displayNumber();
     });
 });
+
 //triggers operate function, finds answer of 2 numbers entered and operator
 equals.addEventListener('click', () => {
     operate();
@@ -45,28 +50,27 @@ equals.addEventListener('click', () => {
     } else {
         displayAnswer(answer);
     }
-    //Get answer to display correctly after 
-    displayNum = answer;
+    //Get answer to display correctly after multiple calcs
+    //How to calc the numbers in display?
 
 });
 
 deleteNum.addEventListener('click', () => {
     //Remove whatever last display char was
-    //displayNum slice lasy char and reassign
-    firstNumber = firstNumber.toString();
-    firstNumber = (firstNumber.slice(0, -1));
-
-    document.getElementById('currentNum').innerText = firstNumber;
+    displayNum = (displayNum.slice(0, -1));
+    displayNumber();
+    //Have to press Del 2x to remove spaces?
 })
 
-//removes numbers and ops from diaply and all values go back to 0
+//removes numbers and ops from disaply and all values go back to 0
 clearNum.addEventListener('click', () => {
-    //Rework clear with new vars
-    firstNumber = 0;
-    secondNumber = 0;
+    displayNum = '';
+    currentValue = '';
     inputOp = 0;
-    document.getElementById('previousNum').innerText = '';
-    document.getElementById('currentNum').innerText = 0;
+    answer = 0;
+    displayZero(); 
+    //manually sets display to show '0' without adding to vars
+    //ex: '012', shows '0', then '12'
 })
 
 //Takes operator and 2 numbers and returns answer
@@ -95,7 +99,7 @@ function operate() {
                         runningTotal /= Number(char);
                         break
                     case '%':
-                        runningTotal = runningTotal / 100;
+                        runningTotal = Number(char) / 100;
                     default:
                         return
                 }
@@ -109,9 +113,20 @@ function operate() {
 }
 
 //Display Functions
+
+function disableDecimal() {
+    //if inputNum has one '.' ,change number.id to '';
+    if(decimalCount === 1){
+        decimal.id = '';
+     }
+}
+
+function displayZero() {
+    document.getElementById('currentNum').innerText = '0';
+}
+
 function displayAnswer() {
-    document.getElementById('currentNum').innerText = answer;
-    document.getElementById('previousNum').innerText = '';
+    document.getElementById('currentNum').innerText = `${answer}`;
 }
 
 function displayNumber() {

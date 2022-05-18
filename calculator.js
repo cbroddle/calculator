@@ -9,35 +9,43 @@ const decimal = document.getElementById(".");
 
 //Vars should keep track of each value being input
 let inputNum = 0;
-let inputOp = 0;
 let answer = 0;
 let displayNum = ''; //Updated after any button is clicked
 let currentValue = ''; //Gets reassigned after every Operator click 
-let decimalCount = 0;
+let decimalCount = false;
 
 // Stores number value from button pressed
 numbers.forEach((number) => {
     number.addEventListener('click', () => {
-        currentValue += number.id
-        inputNum = number.id;
-        displayNum += `${inputNum}`;
-        displayNumber();
+        if ((number.id == '.' && !decimalCount) || number.id !== '.') {
+            currentValue += number.id
+            inputNum = number.id;
+            displayNum += `${inputNum}`;
+            displayNumber();
+        }
     });
 });
 
 decimal.addEventListener('click', () => {
-    decimalCount++;
-    disableDecimal();
+    // Use boolean var, check if decimal present
+    if (decimalCount === false) {
+        decimalCount = true;
+    }
 });
-
 
 // Stores operator pressed and changes current value to previous value
 operator.forEach((op) => {
     op.addEventListener('click', () => {
-        inputOp = op.id;
-        displayNum += ` ${inputOp} `;
-        currentValue = '';
-        displayNumber();
+        let lastChar = displayNum[displayNum.length - 2];
+        //if last char is not an operator then continue
+        //check for space using index -2
+        if (lastChar !== op.id) {
+            let inputOp = op.id;
+            displayNum += ` ${inputOp} `;
+            currentValue = '';
+            decimalCount = false;
+            displayNumber();
+        };
     });
 });
 
@@ -50,25 +58,41 @@ equals.addEventListener('click', () => {
     } else {
         displayAnswer(answer);
     }
+    displayNum = '';
     //Get answer to display correctly after multiple calcs
-    //How to calc the numbers in display?
 
 });
 
 deleteNum.addEventListener('click', () => {
     //Remove whatever last display char was
-    displayNum = (displayNum.slice(0, -1));
-    displayNumber();
-    //Have to press Del 2x to remove spaces?
+    //let tempDisplay = displayNum.split(' ').join('');
+    let deletedChar;
+    if (displayNum[displayNum.length - 1] === ' ') {
+        deletedChar = displayNum[displayNum.length - 2];
+        displayNum = displayNum.slice(0, -2);
+    } else {
+        deletedChar = displayNum[displayNum.length - 1];
+        displayNum = displayNum.slice(0, -1);
+    }
+    if (deletedChar === '.') {
+        decimalCount = false;
+    }
+    if (displayNum === ''){
+        //displays 0 if all chars deleted
+        displayZero();
+    } else {
+        //displays chars that have not been deleted
+        displayNumber();
+    };
 })
 
-//removes numbers and ops from disaply and all values go back to 0
+//removes numbers and ops from display and all values go back to 0
 clearNum.addEventListener('click', () => {
     displayNum = '';
     currentValue = '';
-    inputOp = 0;
     answer = 0;
-    displayZero(); 
+    decimalCount = false;
+    displayZero();
     //manually sets display to show '0' without adding to vars
     //ex: '012', shows '0', then '12'
 })
@@ -76,6 +100,9 @@ clearNum.addEventListener('click', () => {
 //Takes operator and 2 numbers and returns answer
 function operate() {
     let mathChar = displayNum.split(' ');
+    if (mathChar[0] === ' ') {
+        mathChar = mathChar.slice(1);
+    }
     console.log(mathChar);
     let runningTotal = null;
     let ops = '+-x÷%'
@@ -99,7 +126,9 @@ function operate() {
                         runningTotal /= Number(char);
                         break
                     case '%':
-                        runningTotal = Number(char) / 100;
+                        //returns same number entered instead of decimal
+                        //manually set index value 2 to 1 ?
+                        runningTotal /= 100;
                     default:
                         return
                 }
@@ -113,13 +142,6 @@ function operate() {
 }
 
 //Display Functions
-
-function disableDecimal() {
-    //if inputNum has one '.' ,change number.id to '';
-    if(decimalCount === 1){
-        decimal.id = '';
-     }
-}
 
 function displayZero() {
     document.getElementById('currentNum').innerText = '0';

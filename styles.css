@@ -57,13 +57,18 @@ button {
 
 }
 
+button:hover {
+    background-color: #f74cb9;
+    color: white;
+}
+
 button.number, button.equals {
     border-radius: 10px;
 }
 
 button.operator, button.clear, button.delete {
     border-radius: 50%;
-    min-height: 40px
+    min-height: 40px;
 }
 
 

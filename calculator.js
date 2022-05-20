@@ -46,6 +46,11 @@ operator.forEach((op) => {
             decimalCount = false;
             displayNumber();
         };
+        //need more conditions for % to run
+        if (op.id === "%") {
+            percentCalc();
+            
+        };
     });
 });
 
@@ -77,7 +82,7 @@ deleteNum.addEventListener('click', () => {
     if (deletedChar === '.') {
         decimalCount = false;
     }
-    if (displayNum === ''){
+    if (displayNum === '') {
         //displays 0 if all chars deleted
         displayZero();
     } else {
@@ -97,19 +102,32 @@ clearNum.addEventListener('click', () => {
     //ex: '012', shows '0', then '12'
 })
 
+function percentCalc() {
+    let percentChar = displayNum.split(' ');
+    percentChar = percentChar.slice(0, -2);
+    console.log(percentChar);
+    currentValue = percentChar / 100;
+    console.log(currentValue, 'currentValue');
+    displayNum = currentValue;
+    displayNumber();
+}
+
 //Takes operator and 2 numbers and returns answer
 function operate() {
     let mathChar = displayNum.split(' ');
     if (mathChar[0] === ' ') {
         mathChar = mathChar.slice(1);
-    }
-    console.log(mathChar);
+    };
+    console.log(mathChar); //shows array of numbers and operator
     let runningTotal = null;
-    let ops = '+-x÷%'
+    let ops = '+-x÷'
     //['12', '+', '2']
     mathChar.forEach((char, i, mathChar) => {
         if (runningTotal === null) {
             runningTotal = Number(char);
+        } else if (mathChar[0] === '') {
+            runningTotal = Number(answer);
+            mathChar[0] = runningTotal;
         } else {
             if (ops.includes(char) === false) {
                 switch (mathChar[i - 1]) {
@@ -126,9 +144,8 @@ function operate() {
                         runningTotal /= Number(char);
                         break
                     case '%':
-                        //returns same number entered instead of decimal
-                        //manually set index value 2 to 1 ?
-                        runningTotal /= 100;
+                        runningTotal = Number(char) / 100;
+                        break
                     default:
                         return
                 }
@@ -138,7 +155,6 @@ function operate() {
 
     })
     answer = runningTotal;
-
 }
 
 //Display Functions

@@ -14,9 +14,7 @@ body {
     background-image: url("images/calculator_background.jpg");
     background-repeat: no-repeat;
     background-size: cover; 
-    background-color: blueviolet;
-
-    
+    background-color: blueviolet; /*backup color if image does not load*/
 }
 
 .display {
